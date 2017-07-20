@@ -24,8 +24,14 @@ stages:
   - name: APP_URL
     value: undefined
     type: text
+  - name: BIND_TO
+    value: $BIND_TO
+    type: text
+  - name: BRANCH
+    value: undefined
+    type: $BRANCH
   jobs:
-  - name: Blue-Green Deploy
+  - name: Deploy ${CF_APP_NAME}
     type: deployer
     target:
       region_id: ${PROD_REGION_ID}
@@ -35,6 +41,8 @@ stages:
     script: |
       #!/bin/bash
       # Push app
+      echo repo $SAMPLE_REPO
+      echo bind_to $BIND_TO
       if ! cf app $CF_APP; then
         cf push $CF_APP
       else
